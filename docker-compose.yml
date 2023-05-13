@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+
+  backend:
+    container_name: crypto-soft-backend
+    build:
+      context: .
+      dockerfile: docker-compose/backend/Dockerfile
+    restart: always
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    container_name: crypto-soft-frontend
+    depends_on:
+      - backend
+    build:
+      context: .
+      dockerfile: docker-compose/frontend/Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:
